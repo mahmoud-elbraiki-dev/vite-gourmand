@@ -13,7 +13,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="hero-visual">
-                    <img src="<?= asset('uploads/menus/menu-1-a.jpg') ?>" alt="Table de fête dressée par Vite & Gourmand" width="600" height="400">
+                    <img src="<?= asset('uploads/menus/menu-1-1.jpg') ?>" alt="Velouté de châtaignes servi sur une table de fête" width="600" height="400">
                     <?php if ($moyenne): ?>
                         <div class="hero-badge"><strong><?= e(number_format($moyenne, 1, ',', '')) ?>/5</strong><span>note moyenne de nos clients</span></div>
                     <?php endif; ?>

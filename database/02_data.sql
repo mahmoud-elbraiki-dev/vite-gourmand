@@ -90,16 +90,24 @@ INSERT INTO menu_plat (menu_id, plat_id) VALUES
  (6,1),(6,3),(6,6),(6,10),(6,15);
 
 INSERT INTO menu_image (menu_id, chemin, alt, ordre) VALUES
- (1, 'uploads/menus/menu-1-a.jpg', 'Table de réveillon dressée avec foie gras', 1),
- (1, 'uploads/menus/menu-1-b.jpg', 'Chapon farci aux marrons', 2),
- (2, 'uploads/menus/menu-2-a.jpg', 'Brunch de Pâques printanier', 1),
- (2, 'uploads/menus/menu-2-b.jpg', 'Nids en chocolat de Pâques', 2),
- (3, 'uploads/menus/menu-3-a.jpg', 'Entrecôte à la bordelaise', 1),
- (3, 'uploads/menus/menu-3-b.jpg', 'Cannelés bordelais', 2),
- (4, 'uploads/menus/menu-4-a.jpg', 'Risotto aux cèpes', 1),
- (5, 'uploads/menus/menu-5-a.jpg', 'Curry de légumes', 1),
- (6, 'uploads/menus/menu-6-a.jpg', 'Buffet de réception', 1),
- (6, 'uploads/menus/menu-6-b.jpg', 'Pièce montée de choux', 2);
+ (1, 'uploads/menus/menu-1-1.jpg', 'Velouté de châtaignes servi sur une table de fête', 1),
+ (2, 'uploads/menus/menu-2-1.jpg', 'Gigot d''agneau de sept heures en cocotte', 1),
+ (2, 'uploads/menus/menu-2-2.jpg', 'Œuf parfait et asperges vertes', 2),
+ (2, 'uploads/menus/menu-2-3.jpg', 'Nid de Pâques au chocolat', 3),
+ (2, 'uploads/menus/menu-2-4.jpg', 'Salade de fruits frais à la menthe', 4),
+ (3, 'uploads/menus/menu-3-1.jpg', 'Entrecôte à la bordelaise tranchée', 1),
+ (3, 'uploads/menus/menu-3-2.jpg', 'Velouté de châtaignes', 2),
+ (3, 'uploads/menus/menu-3-3.jpg', 'Cannelés bordelais', 3),
+ (4, 'uploads/menus/menu-4-1.jpg', 'Risotto aux cèpes', 1),
+ (4, 'uploads/menus/menu-4-2.jpg', 'Tartare de légumes croquants', 2),
+ (4, 'uploads/menus/menu-4-3.jpg', 'Cannelés bordelais', 3),
+ (5, 'uploads/menus/menu-5-1.jpg', 'Curry de légumes au lait de coco', 1),
+ (5, 'uploads/menus/menu-5-2.jpg', 'Tartare de légumes croquants', 2),
+ (5, 'uploads/menus/menu-5-3.jpg', 'Salade de fruits frais à la menthe', 3),
+ (6, 'uploads/menus/menu-6-1.jpg', 'Pièce montée de choux', 1),
+ (6, 'uploads/menus/menu-6-2.jpg', 'Gigot d''agneau de sept heures', 2),
+ (6, 'uploads/menus/menu-6-3.jpg', 'Dos de cabillaud, beurre blanc', 3),
+ (6, 'uploads/menus/menu-6-4.jpg', 'Œuf parfait et asperges vertes', 4);
 
 -- Commandes de démonstration -------------------------------------------
 INSERT INTO commande (numero_commande, utilisateur_id, menu_id, date_commande, date_prestation, heure_livraison,
