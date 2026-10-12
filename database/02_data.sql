@@ -5,7 +5,7 @@
 --    Employé        : julie@vitegourmand.fr  / Employe!Gourmand2026
 --    Utilisateur    : client@test.fr         / Client!Gourmand2026
 -- =====================================================================
-USE vite_gourmand;
+USE vite_gourmand_ecf;
 SET NAMES utf8mb4;
 
 INSERT INTO role (role_id, libelle) VALUES

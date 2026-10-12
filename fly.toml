@@ -8,7 +8,7 @@ primary_region = "cdg"   # Paris
 [env]
   APP_ENV = "prod"
   DB_PORT = "3306"
-  DB_NAME = "vite_gourmand"
+  DB_NAME = "vite_gourmand_ecf"
   MONGO_DB = "vite_gourmand"
 
 # Les secrets (DB_HOST, DB_USER, DB_PASS, MONGO_URI, MAIL_*, APP_URL) sont définis avec :
