@@ -21,7 +21,7 @@ final class Database
                 'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
                 env('DB_HOST', '127.0.0.1'),
                 env('DB_PORT', '3306'),
-                env('DB_NAME', 'vite_gourmand')
+                env('DB_NAME', 'vite_gourmand_ecf')
             );
             self::$pdo = new PDO($dsn, env('DB_USER', 'root'), env('DB_PASS', '') ?? '', [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

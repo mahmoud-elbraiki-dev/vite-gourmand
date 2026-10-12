@@ -7,9 +7,10 @@
 
 SET NAMES utf8mb4;
 
-DROP DATABASE IF EXISTS vite_gourmand;
-CREATE DATABASE vite_gourmand CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE vite_gourmand;
+-- Base dédiée au projet : elle ne remplace PAS une éventuelle ancienne base « vite_gourmand »
+DROP DATABASE IF EXISTS vite_gourmand_ecf;
+CREATE DATABASE vite_gourmand_ecf CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE vite_gourmand_ecf;
 
 -- ---------------------------------------------------------------------
 -- Référentiels
@@ -201,4 +202,4 @@ CREATE TABLE avis (
 -- À adapter en production : mot de passe fort défini dans le .env
 -- ---------------------------------------------------------------------
 -- CREATE USER IF NOT EXISTS 'vg_app'@'localhost' IDENTIFIED BY 'ChangeMoi!2026';
--- GRANT SELECT, INSERT, UPDATE, DELETE ON vite_gourmand.* TO 'vg_app'@'localhost';
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON vite_gourmand_ecf.* TO 'vg_app'@'localhost';

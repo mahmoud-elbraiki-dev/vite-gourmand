@@ -71,11 +71,18 @@ try {
 } catch (PDOException $e) {
     error_log('[DB] ' . $e->getMessage());
     http_response_code(500);
+    // Base absente (1049), table/colonne inconnue (1146/1054) ou colonne obligatoire inconnue
+    // du code (1364) : la base ne correspond pas au schéma de ce projet.
+    $driverCode = (int) ($e->errorInfo[1] ?? 0);
+    $schemaHint = in_array($driverCode, [1049, 1054, 1146, 1364], true)
+        ? ' — La base « ' . env('DB_NAME', 'vite_gourmand_ecf') . ' » ne correspond pas au schéma du projet : '
+          . 'importez database/01_schema.sql puis database/02_data.sql (voir README).'
+        : '';
     App\Core\View::render('pages/error', [
         'title' => 'Erreur',
         'code' => 500,
         'message' => env('APP_ENV') === 'prod'
             ? 'Une erreur technique est survenue. Merci de réessayer plus tard.'
-            : 'Erreur base de données : ' . $e->getMessage(),
+            : 'Erreur base de données : ' . $e->getMessage() . $schemaHint,
     ]);
 }

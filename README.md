@@ -59,6 +59,8 @@ Ouvrir **http://localhost:8000**.
 3. Importer `database/01_schema.sql` puis `database/02_data.sql` dans phpMyAdmin (onglet *Importer*).
 4. Renseigner `.env` (par défaut sous XAMPP : `DB_USER=root`, `DB_PASS=` vide).
 
+> La base du projet s'appelle **`vite_gourmand_ecf`**. Les scripts ne touchent pas à une éventuelle autre base (par exemple une ancienne `vite_gourmand` créée par une version précédente du projet). Si le site affiche une erreur du type `Field '…' doesn't have a default value` ou `Unknown column`, c'est que l'application est branchée sur une base qui n'a pas le schéma de ce projet : vérifiez `DB_NAME` dans `.env` et importez `01_schema.sql` puis `02_data.sql`.
+
 > Le dossier `public/` est la seule racine web : le code (`src/`), les gabarits, le fichier `.env` et les scripts SQL ne sont jamais accessibles depuis le navigateur.
 
 ## 3. Comptes de démonstration
