@@ -1,0 +1,7 @@
+.git
+.env
+vendor
+storage/logs/*
+storage/nosql/*
+docs/captures
+docs/*.pdf

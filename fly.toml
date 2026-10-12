@@ -1,0 +1,30 @@
+# Déploiement Fly.io — voir docs/ (documentation de déploiement)
+app = "vite-gourmand"
+primary_region = "cdg"   # Paris
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  APP_ENV = "prod"
+  DB_PORT = "3306"
+  DB_NAME = "vite_gourmand"
+  MONGO_DB = "vite_gourmand"
+
+# Les secrets (DB_HOST, DB_USER, DB_PASS, MONGO_URI, MAIL_*, APP_URL) sont définis avec :
+#   fly secrets set DB_HOST=... DB_USER=... DB_PASS=... MONGO_URI=... APP_URL=https://vite-gourmand.fly.dev
+
+# Évolution prévue : stocker les images téléversées sur un stockage objet (S3 / Tigris)
+# car le disque d'une machine Fly est réinitialisé à chaque déploiement.
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
