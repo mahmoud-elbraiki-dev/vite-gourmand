@@ -1,0 +1,11 @@
+# Apache : toutes les URL non-fichier sont routées vers index.php
+Options -Indexes
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# Interdit l'exécution de scripts dans le dossier des téléversements
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
