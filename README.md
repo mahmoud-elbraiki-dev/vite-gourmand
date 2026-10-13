@@ -10,7 +10,7 @@ Projet réalisé dans le cadre de l'ECF Studi — *TP Développeur Web et Web Mo
 | Back | PHP 8.1+ sans framework, architecture MVC légère, PDO |
 | Base relationnelle | MySQL 8 / MariaDB 10.6+ |
 | Base NoSQL | MongoDB (Atlas en production) — repli JSON automatique en local |
-| Déploiement | Docker + Fly.io (base MySQL managée, MongoDB Atlas) |
+| Déploiement | alwaysdata (production : https://elbraiki.alwaysdata.net) — configuration Docker + Fly.io également fournie |
 
 ---
 
