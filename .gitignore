@@ -7,3 +7,8 @@
 .DS_Store
 .idea/
 .vscode/
+__pycache__/
+*.pyc
+Thumbs.db
+# Captures brutes générées par tests/e2e_recette.py (les versions optimisées sont dans docs/captures/doc/)
+/docs/captures/*.png
