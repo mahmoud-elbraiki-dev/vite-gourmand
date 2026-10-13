@@ -26,7 +26,7 @@ Projet réalisé dans le cadre de l'ECF Studi — *TP Développeur Web et Web Mo
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/<votre-compte>/vite-gourmand.git
+git clone https://github.com/mahmoud-elbraiki-dev/vite-gourmand.git
 cd vite-gourmand
 
 # 2. Dépendances PHP
