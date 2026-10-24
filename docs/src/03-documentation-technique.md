@@ -10,7 +10,7 @@ Julie et José n'ont aucune compétence informatique : l'application doit être 
 
 | Couche | Choix | Pourquoi | Alternatives étudiées |
 |---|---|---|---|
-| Front-end | HTML 5, CSS 3, **Bootstrap 5.3**, JavaScript natif | Rendu serveur rapide et bien référencé ; Bootstrap fournit une grille responsive et des composants accessibles ; JavaScript natif (`fetch`) suffit pour les filtres dynamiques et le calcul de prix, sans chaîne de build | React / Vue : apport faible pour quelques interactions, ajout d'un build et d'une API complète ; Tailwind : nécessite un build |
+| Front-end | HTML 5, CSS 3, **Bootstrap 5.3**, JavaScript natif | Rendu serveur rapide et bien référencé ; Bootstrap fournit une grille responsive et des composants accessibles ; JavaScript natif moderne (ES2020+ : modules `import`/`export`, classes, `const`/`let`, fonctions fléchées, template literals, `async`/`await` avec `fetch`) suffit pour les filtres dynamiques et le calcul de prix, sans chaîne de build | React / Vue : apport faible pour quelques interactions, ajout d'un build et d'une API complète ; Tailwind : nécessite un build |
 | Back-end | **PHP 8.1+ sans framework**, architecture **MVC légère** (contrôleur frontal, contrôleurs, repositories, services, vues) | PHP est disponible chez tous les hébergeurs mutualisés ; sans framework, chaque mécanisme de sécurité (CSRF, sessions, hachage, requêtes préparées) est écrit et maîtrisé, ce qui est l'objectif de l'évaluation | Symfony : très robuste mais lourd pour ce périmètre ; Node.js/Express : excellent mais hébergement moins courant chez les petits clients |
 | Accès aux données SQL | **PDO** avec requêtes préparées | Protection native contre l'injection SQL, transactions, indépendant du SGBD | ORM Doctrine : surdimensionné ici |
 | Base relationnelle | **MySQL 8 / MariaDB** (InnoDB) | Respect du MCD fourni, intégrité référentielle (clés étrangères, contraintes `CHECK`), transactions pour le stock ; disponible partout | PostgreSQL : équivalent, moins répandu en mutualisé |
@@ -59,6 +59,7 @@ Navigateur ──HTTP──▶ public/index.php (contrôleur frontal + routes)
 - Les **contrôleurs** valident les entrées, vérifient les droits et appellent les **repositories** (SQL) et **services** (règles métier).
 - Les **règles de prix** sont centralisées dans `PricingService` et recalculées côté serveur ; le JavaScript ne fait qu'afficher une estimation.
 - Les **API JSON** `/api/menus` (filtres) et `/api/statistiques` (graphique) alimentent les mises à jour sans rechargement.
+- Le **front-end** est organisé en **modules ES** (`public/assets/js/`) : `utils.js` regroupe les outils partagés (formatage monétaire, création d'éléments DOM sécurisée, sérialisation des filtres), importés par `menus.js` (classe `MenuFilter`), `order.js` (classe `OrderEstimator`), `stats.js` (classe `StatsDashboard`) et `app.js` (classe `PasswordChecker`, galerie, confirmations). Les appels réseau utilisent `async`/`await`, avec `AbortController` pour annuler une requête de filtrage devenue obsolète.
 
 ## 4. Modèle conceptuel de données
 
@@ -128,7 +129,7 @@ Une recette automatisée de bout en bout (Playwright) couvre **44 vérifications
 
 ### 10.1 Démarche
 
-L'application est déployée sous forme d'**image Docker** (PHP 8.3 + Apache) sur **Fly.io**, avec une base **MySQL managée** et **MongoDB Atlas**. Ce découpage sépare le code (sans état, redéployable à volonté) des données (services managés, sauvegardés).
+L'application est **en ligne sur alwaysdata** (hébergement mutualisé, PHP 8.3, MariaDB) à l'adresse **https://elbraiki.alwaysdata.net** — procédure suivie détaillée en 10.4. Le dépôt fournit aussi un déploiement conteneurisé (image Docker PHP 8.3 + Apache sur Fly.io, MySQL managée, MongoDB Atlas) décrit ci-dessous.
 
 ### 10.2 Étapes
 
@@ -147,3 +148,13 @@ L'application est déployée sous forme d'**image Docker** (PHP 8.3 + Apache) su
 - Les variables sensibles ne sont **jamais** dans le dépôt : `.env` est ignoré par Git, les secrets sont gérés par `fly secrets`.
 - Le disque des machines Fly est éphémère : les images téléversées depuis le back-office doivent, en évolution, être stockées sur un stockage objet (S3 / Tigris). Les images du jeu de données sont incluses dans l'image.
 - Alternative mutualisée (ex. alwaysdata, o2switch) : déposer les fichiers par Git/SFTP, pointer la racine du site sur `public/`, créer `.env`, importer les scripts SQL — l'application fonctionne sans Docker.
+
+### 10.4 Mise en ligne effective (alwaysdata)
+
+1. Compte alwaysdata (offre gratuite) ; base MariaDB `elbraiki_ecf` créée depuis l'interface d'administration.
+2. Site de type PHP 8.3, répertoire racine `~/www/vite-gourmand/public/` : seul `public/` est exposé.
+3. En SSH : `git clone` du dépôt GitHub dans `~/www`, puis création du fichier `.env` sur le serveur (`APP_ENV=prod`, identifiants MySQL) — jamais versionné.
+4. Import de `01_schema.sql`, `02_data.sql` et `04_photos.sql` (lignes `CREATE DATABASE` / `USE` retirées : le nom de base est imposé par l'hébergeur).
+5. `php bin/sync-nosql.php` : initialisation de la base NoSQL en repli JSON (MongoDB n'est pas proposé par l'hébergeur).
+6. Vérifications : HTTPS, accueil, filtres, commande, espaces utilisateur, employé et administrateur.
+7. Mises à jour : merge de `develop` dans `main`, puis `git pull` dans `~/www/vite-gourmand`.
