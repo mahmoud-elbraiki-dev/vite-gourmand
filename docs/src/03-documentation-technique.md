@@ -129,7 +129,7 @@ Une recette automatisée de bout en bout (Playwright) couvre **44 vérifications
 
 ### 10.1 Démarche
 
-L'application est déployée sous forme d'**image Docker** (PHP 8.3 + Apache) sur **Fly.io**, avec une base **MySQL managée** et **MongoDB Atlas**. Ce découpage sépare le code (sans état, redéployable à volonté) des données (services managés, sauvegardés).
+L'application est **en ligne sur alwaysdata** (hébergement mutualisé, PHP 8.3, MariaDB) à l'adresse **https://elbraiki.alwaysdata.net** — procédure suivie détaillée en 10.4. Le dépôt fournit aussi un déploiement conteneurisé (image Docker PHP 8.3 + Apache sur Fly.io, MySQL managée, MongoDB Atlas) décrit ci-dessous.
 
 ### 10.2 Étapes
 
@@ -148,3 +148,13 @@ L'application est déployée sous forme d'**image Docker** (PHP 8.3 + Apache) su
 - Les variables sensibles ne sont **jamais** dans le dépôt : `.env` est ignoré par Git, les secrets sont gérés par `fly secrets`.
 - Le disque des machines Fly est éphémère : les images téléversées depuis le back-office doivent, en évolution, être stockées sur un stockage objet (S3 / Tigris). Les images du jeu de données sont incluses dans l'image.
 - Alternative mutualisée (ex. alwaysdata, o2switch) : déposer les fichiers par Git/SFTP, pointer la racine du site sur `public/`, créer `.env`, importer les scripts SQL — l'application fonctionne sans Docker.
+
+### 10.4 Mise en ligne effective (alwaysdata)
+
+1. Compte alwaysdata (offre gratuite) ; base MariaDB `elbraiki_ecf` créée depuis l'interface d'administration.
+2. Site de type PHP 8.3, répertoire racine `~/www/vite-gourmand/public/` : seul `public/` est exposé.
+3. En SSH : `git clone` du dépôt GitHub dans `~/www`, puis création du fichier `.env` sur le serveur (`APP_ENV=prod`, identifiants MySQL) — jamais versionné.
+4. Import de `01_schema.sql`, `02_data.sql` et `04_photos.sql` (lignes `CREATE DATABASE` / `USE` retirées : le nom de base est imposé par l'hébergeur).
+5. `php bin/sync-nosql.php` : initialisation de la base NoSQL en repli JSON (MongoDB n'est pas proposé par l'hébergeur).
+6. Vérifications : HTTPS, accueil, filtres, commande, espaces utilisateur, employé et administrateur.
+7. Mises à jour : merge de `develop` dans `main`, puis `git pull` dans `~/www/vite-gourmand`.
