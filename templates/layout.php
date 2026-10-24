@@ -119,9 +119,10 @@ $authUser = Auth::user();
 </footer>
 
 <script src="<?= asset('assets/vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= asset('assets/js/app.js') ?>"></script>
+<script type="module" src="<?= asset('assets/js/app.js') ?>"></script>
 <?php foreach (($scripts ?? []) as $s): ?>
-    <script src="<?= e($s) ?>"></script>
+    <?php /* Nos scripts sont des modules ES (import/export) ; les bibliothèques tierces restent des scripts classiques */ ?>
+    <script<?= str_contains($s, '/assets/js/') ? ' type="module"' : '' ?> src="<?= e($s) ?>"></script>
 <?php endforeach; ?>
 </body>
 </html>

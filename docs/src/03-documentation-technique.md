@@ -10,7 +10,7 @@ Julie et José n'ont aucune compétence informatique : l'application doit être 
 
 | Couche | Choix | Pourquoi | Alternatives étudiées |
 |---|---|---|---|
-| Front-end | HTML 5, CSS 3, **Bootstrap 5.3**, JavaScript natif | Rendu serveur rapide et bien référencé ; Bootstrap fournit une grille responsive et des composants accessibles ; JavaScript natif (`fetch`) suffit pour les filtres dynamiques et le calcul de prix, sans chaîne de build | React / Vue : apport faible pour quelques interactions, ajout d'un build et d'une API complète ; Tailwind : nécessite un build |
+| Front-end | HTML 5, CSS 3, **Bootstrap 5.3**, JavaScript natif | Rendu serveur rapide et bien référencé ; Bootstrap fournit une grille responsive et des composants accessibles ; JavaScript natif moderne (ES2020+ : modules `import`/`export`, classes, `const`/`let`, fonctions fléchées, template literals, `async`/`await` avec `fetch`) suffit pour les filtres dynamiques et le calcul de prix, sans chaîne de build | React / Vue : apport faible pour quelques interactions, ajout d'un build et d'une API complète ; Tailwind : nécessite un build |
 | Back-end | **PHP 8.1+ sans framework**, architecture **MVC légère** (contrôleur frontal, contrôleurs, repositories, services, vues) | PHP est disponible chez tous les hébergeurs mutualisés ; sans framework, chaque mécanisme de sécurité (CSRF, sessions, hachage, requêtes préparées) est écrit et maîtrisé, ce qui est l'objectif de l'évaluation | Symfony : très robuste mais lourd pour ce périmètre ; Node.js/Express : excellent mais hébergement moins courant chez les petits clients |
 | Accès aux données SQL | **PDO** avec requêtes préparées | Protection native contre l'injection SQL, transactions, indépendant du SGBD | ORM Doctrine : surdimensionné ici |
 | Base relationnelle | **MySQL 8 / MariaDB** (InnoDB) | Respect du MCD fourni, intégrité référentielle (clés étrangères, contraintes `CHECK`), transactions pour le stock ; disponible partout | PostgreSQL : équivalent, moins répandu en mutualisé |
@@ -59,6 +59,7 @@ Navigateur ──HTTP──▶ public/index.php (contrôleur frontal + routes)
 - Les **contrôleurs** valident les entrées, vérifient les droits et appellent les **repositories** (SQL) et **services** (règles métier).
 - Les **règles de prix** sont centralisées dans `PricingService` et recalculées côté serveur ; le JavaScript ne fait qu'afficher une estimation.
 - Les **API JSON** `/api/menus` (filtres) et `/api/statistiques` (graphique) alimentent les mises à jour sans rechargement.
+- Le **front-end** est organisé en **modules ES** (`public/assets/js/`) : `utils.js` regroupe les outils partagés (formatage monétaire, création d'éléments DOM sécurisée, sérialisation des filtres), importés par `menus.js` (classe `MenuFilter`), `order.js` (classe `OrderEstimator`), `stats.js` (classe `StatsDashboard`) et `app.js` (classe `PasswordChecker`, galerie, confirmations). Les appels réseau utilisent `async`/`await`, avec `AbortController` pour annuler une requête de filtrage devenue obsolète.
 
 ## 4. Modèle conceptuel de données
 
